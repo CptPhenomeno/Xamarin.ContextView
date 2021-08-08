@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ContextView.Sample.Pages.ListViewAllItemContextPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:context="clr-namespace:Xamarin.ContextView;assembly=Xamarin.ContextView"
+    x:Name="ListViewAllItemContext">
+    <ListView
+        x:Name="Elements"
+        CachingStrategy="RetainElement"
+        IsPullToRefreshEnabled="False"
+        ItemsSource="{Binding Restourants}"
+        SelectionMode="None">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <context:ContextView>
+                        <context:ContextView.MenuItems>
+                            <context:MenuItem Command="{Binding BindingContext.OpenWebSiteCommand, Source={x:Reference ListViewAllItemContext}}" CommandParameter="{Binding .}">
+                                <Label
+                                    Padding="16"
+                                    BackgroundColor="Lime"
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Text="Open WebSite"
+                                    TextColor="Red" />
+                            </context:MenuItem>
+                            <context:MenuItem Command="{Binding BindingContext.OpenPositionCommand, Source={x:Reference ListViewAllItemContext}}" CommandParameter="{Binding .}">
+                                <Label
+                                    Padding="16"
+                                    BackgroundColor="Pink"
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Text="Open Position"
+                                    TextColor="Blue" />
+                            </context:MenuItem>
+                        </context:ContextView.MenuItems>
+
+                        <StackLayout Margin="4" BackgroundColor="Wheat">
+                            <Label FontSize="18" Text="{Binding Name}" />
+                        </StackLayout>
+                    </context:ContextView>
+
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>
