@@ -4,7 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:context="clr-namespace:Xamarin.ContextView;assembly=Xamarin.ContextView">
-    <StackLayout>
+    <StackLayout Padding="16" Spacing="16">
         <context:ContextView ContextMenuBackgroundColor="Beige">
             <context:ContextView.MenuItems>
                 <context:MenuItem Command="{Binding LabelCommand}">
@@ -17,19 +17,22 @@
                 Text="This is a Label with a context menu associated (single tap to open)" />
         </context:ContextView>
 
-        <BoxView HeightRequest="2" HorizontalOptions="FillAndExpand" />
+        <BoxView
+            HeightRequest="2"
+            HorizontalOptions="FillAndExpand"
+            Color="Gray" />
 
         <Label Text="The following box view has a context menu (long press to open)" />
         <context:ContextView ContextMenuBackgroundColor="AliceBlue" Mode="LongPress">
             <context:ContextView.MenuItems>
                 <context:MenuItem Command="{Binding BoxCommand}" CommandParameter="{x:Static Color.Red}">
-                    <Label Text="Set color to Red" />
+                    <Label Padding="24" Text="Set color to Red" />
                 </context:MenuItem>
                 <context:MenuItem Command="{Binding BoxCommand}" CommandParameter="{x:Static Color.Green}">
-                    <Label Text="Set color to Green" />
+                    <Label Padding="24" Text="Set color to Green" />
                 </context:MenuItem>
                 <context:MenuItem Command="{Binding BoxCommand}" CommandParameter="{x:Static Color.Blue}">
-                    <Label Text="Set color to Blue" />
+                    <Label Padding="24" Text="Set color to Blue" />
                 </context:MenuItem>
             </context:ContextView.MenuItems>
             <BoxView

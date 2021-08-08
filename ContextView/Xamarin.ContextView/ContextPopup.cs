@@ -7,6 +7,35 @@ using Xamarin.Forms;
 
 namespace Xamarin.ContextView
 {
+    internal class ContextPopupLayout : StackLayout
+    {
+        private readonly ContextPopup _contextPopup;
+        private readonly bool _shouldAutosize;
+        private double _maxWidth = double.MinValue;
+        private double _maxHeight = double.MinValue;
+
+        public ContextPopupLayout(ContextPopup contextPopup, bool shouldAutosize)
+        {
+            this._contextPopup = contextPopup;
+            this._shouldAutosize = shouldAutosize;
+
+            this.HorizontalOptions = LayoutOptions.CenterAndExpand;
+            this.VerticalOptions = LayoutOptions.CenterAndExpand;
+        }
+
+        protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
+        {
+            var measure = base.OnMeasure(widthConstraint, heightConstraint);
+            if (this._shouldAutosize is true)
+            {
+                this._maxWidth = Math.Max(this._maxWidth, measure.Request.Width);
+                this._maxHeight = Math.Max(this._maxHeight, measure.Request.Height);
+                this._contextPopup.Size = new Size(this._maxWidth + 4 * this.Margin.HorizontalThickness, this._maxHeight + 4 * this.Margin.VerticalThickness); 
+            }
+            return measure;
+        }
+    }
+
     internal class ContextPopupBuilder
     {
         private ContextPopup _popup;
@@ -61,7 +90,7 @@ namespace Xamarin.ContextView
         private void Reset()
         {
             this._menuItems = null;
-            this._size = new Size(150, 150);
+            this._size = Size.Zero;
             this._backgroundColor = Color.White;
             this._anchor = null;
         }
@@ -81,7 +110,7 @@ namespace Xamarin.ContextView
             this.Size = size;
             this.BackgroundColor = backgroundColor;
             this.Anchor = anchor;
-            this._stackLayout = new StackLayout { Margin = 2, Padding = 2, BackgroundColor = this.BackgroundColor };
+            this._stackLayout = new ContextPopupLayout(this, size == Size.Zero) { Margin = 2, Padding = 2, BackgroundColor = this.BackgroundColor };
             this._scrollView = new ScrollView { Margin = 0, Padding = 0 };
 
             foreach (var menuItem in this._menuItems)

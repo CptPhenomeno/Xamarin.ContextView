@@ -14,7 +14,7 @@
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
-                    <context:ContextView ContextMenuSize="150,100">
+                    <context:ContextView>
                         <context:ContextView.MenuItems>
                             <context:MenuItem Command="{Binding BindingContext.OpenWebSiteCommand, Source={x:Reference ListViewAllItemContext}}" CommandParameter="{Binding .}">
                                 <Label
