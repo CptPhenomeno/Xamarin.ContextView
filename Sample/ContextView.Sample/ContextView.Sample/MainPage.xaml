@@ -11,6 +11,11 @@
             x:Name="GoToListViewAllItemContextPage"
             Clicked="GoToListViewAllItemContextPage_Clicked"
             Text="ListView item with context" />
+
+        <Button
+            x:Name="GoToAnyViewsPage"
+            Clicked="GoToAnyViewsPage_Clicked"
+            Text="Any views could have a context menu!" />
     </StackLayout>
 
 </ContentPage>

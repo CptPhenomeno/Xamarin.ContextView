@@ -9,6 +9,16 @@ namespace Xamarin.ContextView
 {
     public class MenuItem : ContentView
     {
+        private readonly ICommand _internalCommand;
+        internal ContextPopup _internalContextPopup;
+
+        public MenuItem()
+        {
+            this._internalCommand = CommandFactory.Create(InternalMenuAction);
+            this.GestureRecognizers.Add(new TapGestureRecognizer { Command = this._internalCommand });
+        }
+
+        #region Command
         public static readonly BindableProperty CommandProperty = BindableProperty.Create(
             nameof(Command),
             typeof(ICommand),
@@ -19,7 +29,9 @@ namespace Xamarin.ContextView
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
         }
+        #endregion
 
+        #region CommandParameter
         public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
             nameof(Command),
             typeof(object),
@@ -29,16 +41,8 @@ namespace Xamarin.ContextView
         {
             get => (object)GetValue(CommandParameterProperty);
             set => SetValue(CommandParameterProperty, value);
-        }
-
-        private readonly ICommand _internalCommand;
-        internal ContextPopup _internalContextPopup;
-
-        public MenuItem()
-        {
-            this._internalCommand = CommandFactory.Create(InternalMenuAction);
-            this.GestureRecognizers.Add(new TapGestureRecognizer { Command = this._internalCommand });
-        }
+        } 
+        #endregion
 
         private void InternalMenuAction()
         {
