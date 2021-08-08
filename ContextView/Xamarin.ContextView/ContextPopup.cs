@@ -1,32 +1,98 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 
 namespace Xamarin.ContextView
 {
+    internal class ContextPopupBuilder
+    {
+        private ContextPopup _popup;
+        private IList<MenuItem> _menuItems;
+        private Size _size;
+        private Color _backgroundColor;
+        private View _anchor;
+
+        public ContextPopupBuilder()
+        {
+            this.Reset();
+        }
+
+        public ContextPopupBuilder WithMenuItems(IList<MenuItem> menuItems)
+        {
+            this._menuItems = menuItems;
+            return this;
+        }
+
+        public ContextPopupBuilder WithSize(Size size)
+        {
+            this._size = size;
+            return this;
+        }
+
+        public ContextPopupBuilder WithBackgroundColor(Color backgroundColor)
+        {
+            this._backgroundColor = backgroundColor;
+            return this;
+        }
+        public ContextPopupBuilder WithAnchor(View anchor)
+        {
+            this._anchor = anchor;
+            return this;
+        }
+
+
+        public ContextPopup Build()
+        {
+            if (this._menuItems == null || this._menuItems.Any() is false)
+                throw new InvalidOperationException("You must specify a MenuItems collection");
+
+            this._popup = new ContextPopup(
+                this._menuItems,
+                this._size,
+                this._backgroundColor,
+                this._anchor);
+
+            return this._popup;
+        }
+
+        private void Reset()
+        {
+            this._menuItems = null;
+            this._size = new Size(150, 150);
+            this._backgroundColor = Color.White;
+            this._anchor = null;
+        }
+    }
+
     internal class ContextPopup : Popup
     {
         private readonly IList<MenuItem> _menuItems;
+        private StackLayout _stackLayout;
+        private ScrollView _scrollView;
 
-        public ContextPopup(IList<MenuItem> menuItems)
+        internal ContextPopup() { }
+
+        internal ContextPopup(IList<MenuItem> menuItems, Size size, Color backgroundColor, View anchor)
         {
-            this.Size = new Size(300, 300);
             this._menuItems = menuItems;
-            var stackLayout = new StackLayout();
-            var scrollView = new ScrollView();
+            this.Size = size;
+            this.BackgroundColor = backgroundColor;
+            this.Anchor = anchor;
+            this._stackLayout = new StackLayout { Margin = 2, Padding = 2, BackgroundColor = this.BackgroundColor };
+            this._scrollView = new ScrollView { Margin = 0, Padding = 0 };
 
             foreach (var menuItem in this._menuItems)
             {
                 menuItem._internalContextPopup = this;
-                stackLayout.Children.Add(menuItem);
+                this._stackLayout.Children.Add(menuItem);
             }
 
-            scrollView.Content = stackLayout;
+            this._scrollView.Content = this._stackLayout;
 
-            this.Content = scrollView;
+            this.Content = this._scrollView;
         }
-
     }
 }

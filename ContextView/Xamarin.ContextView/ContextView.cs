@@ -65,6 +65,20 @@ namespace Xamarin.ContextView
         }
         #endregion
 
+        #region Size
+        public static readonly BindableProperty ContextMenuSizeProperty = BindableProperty.Create(
+            nameof(ContextMenuSize),
+            typeof(Size),
+            typeof(ContentView),
+            Size.Zero);
+
+        public Size ContextMenuSize
+        {
+            get => (Size)GetValue(ContextMenuSizeProperty);
+            set => SetValue(ContextMenuSizeProperty, value);
+        }
+        #endregion
+
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
@@ -119,11 +133,13 @@ namespace Xamarin.ContextView
         {
             if (this.IsEnabled is true)
             {
-                var contextPopup = new ContextPopup(this.MenuItems)
-                {
-                    Anchor = this,
-                    BackgroundColor = this.ContextMenuBackgroundColor
-                };
+                var contextPopup = new ContextPopupBuilder()
+                .WithMenuItems(this.MenuItems)
+                .WithSize(this.ContextMenuSize)
+                .WithBackgroundColor(this.ContextMenuBackgroundColor)
+                .WithAnchor(this)
+                .Build();
+
                 await this.Navigation.ShowPopupAsync(contextPopup);
             }
         }
