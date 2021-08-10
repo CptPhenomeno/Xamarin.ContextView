@@ -65,11 +65,58 @@ namespace Xamarin.ContextView
         }
         #endregion
 
+        #region TapRequired
+        public static readonly BindableProperty NumberOfTapsRequiredProperty = BindableProperty.Create(
+            nameof(NumberOfTapsRequired),
+            typeof(int),
+            typeof(ContextView),
+            1,
+            propertyChanged: OnNumberOfTapsRequiredPropertyChanged);
+
+        public int NumberOfTapsRequired
+        {
+            get => (int)GetValue(NumberOfTapsRequiredProperty);
+            set => SetValue(NumberOfTapsRequiredProperty, value);
+        }
+
+        private static void OnNumberOfTapsRequiredPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (bindable is ContextView contextView && newValue is int numberOfTapsRequired)
+            {
+                contextView._openContextMenuTapGesture.NumberOfTapsRequired = numberOfTapsRequired;
+            }
+        }
+        #endregion
+
+
+        #region LongPressDuration
+        public static readonly BindableProperty LongPressDurationProperty = BindableProperty.Create(
+            nameof(LongPressDuration),
+            typeof(int),
+            typeof(ContextView),
+            100,
+            propertyChanged: OnLongPressDurationPropertyChanged);
+
+        public int LongPressDuration
+        {
+            get => (int)GetValue(LongPressDurationProperty);
+            set => SetValue(LongPressDurationProperty, value);
+        }
+
+        private static void OnLongPressDurationPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (bindable is ContextView contextView && newValue is int longPressDuration)
+            {
+                TouchEffect.SetLongPressDuration(contextView, longPressDuration);
+            }
+        }
+        #endregion
+
         #region Size
         public static readonly BindableProperty ContextMenuSizeProperty = BindableProperty.Create(
             nameof(ContextMenuSize),
             typeof(Size),
-            typeof(ContentView),
+            typeof(ContextView),
             Size.Zero);
 
         public Size ContextMenuSize
@@ -121,11 +168,14 @@ namespace Xamarin.ContextView
                 if (this._openContextMenuTapGesture == null)
                     this._openContextMenuTapGesture = new TapGestureRecognizer { Command = this._openContextMenuCommand };
 
+                TouchEffect.SetLongPressCommand(this, null);
                 this.GestureRecognizers.Add(this._openContextMenuTapGesture);
             }
             else
             {
+                this.GestureRecognizers.Remove(this._openContextMenuTapGesture);
                 TouchEffect.SetLongPressCommand(this, this._openContextMenuCommand);
+                TouchEffect.SetLongPressDuration(this, this.LongPressDuration);
             }
         }
 

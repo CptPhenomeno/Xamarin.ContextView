@@ -5,10 +5,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:context="clr-namespace:Xamarin.ContextView;assembly=Xamarin.ContextView">
     <StackLayout Padding="16" Spacing="16">
-        <context:ContextView ContextMenuBackgroundColor="Beige">
+        <context:ContextView ContextMenuBackgroundColor="Beige" NumberOfTapsRequired="2">
             <context:ContextView.MenuItems>
                 <context:MenuItem Command="{Binding LabelCommand}">
-                    <Label Text="Display alert" />
+                    <Grid ColumnDefinitions="24, Auto">
+                        <BoxView
+                            CornerRadius="12"
+                            HeightRequest="24"
+                            WidthRequest="24"
+                            Color="Red" />
+                        <Label Grid.Column="1" Text="Display alert" />
+                    </Grid>
                 </context:MenuItem>
             </context:ContextView.MenuItems>
             <Label
@@ -23,7 +30,10 @@
             Color="Gray" />
 
         <Label Text="The following box view has a context menu (long press to open)" />
-        <context:ContextView ContextMenuBackgroundColor="AliceBlue" Mode="LongPress">
+        <context:ContextView
+            ContextMenuBackgroundColor="AliceBlue"
+            LongPressDuration="1000"
+            Mode="LongPress">
             <context:ContextView.MenuItems>
                 <context:MenuItem Command="{Binding BoxCommand}" CommandParameter="{x:Static Color.Red}">
                     <Label Padding="24" Text="Set color to Red" />
