@@ -8,7 +8,7 @@
     <Authors>Gabriele Benvenuti</Authors>
     <Description>Add a context menu to any Xamarin views</Description>
     <PackageProjectUrl>https://github.com/CptPhenomeno/Xamarin.ContextView</PackageProjectUrl>
-    <PackageTags>xamarin, 'context view'</PackageTags>
+    <PackageTags>xamarin forms;context view</PackageTags>
     <PackageReleaseNotes>First release</PackageReleaseNotes>
     <PackageLicenseUrl>https://github.com/CptPhenomeno/Xamarin.ContextView/blob/main/LICENSE</PackageLicenseUrl>
     <PackageId>Xamarin.ContextView</PackageId>

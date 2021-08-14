@@ -111,7 +111,7 @@ namespace Xamarin.ContextView
             this.BackgroundColor = backgroundColor;
             this.Anchor = anchor;
             this._stackLayout = new ContextPopupLayout(this, size == Size.Zero) { Margin = 2, Padding = 2, BackgroundColor = this.BackgroundColor };
-            this._scrollView = new ScrollView { Margin = 0, Padding = 0 };
+            this._scrollView = new ScrollView { Margin = 0, Padding = 0, BackgroundColor = this.BackgroundColor };
 
             foreach (var menuItem in this._menuItems)
             {
