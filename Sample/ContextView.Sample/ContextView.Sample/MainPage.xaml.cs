@@ -20,5 +20,10 @@ namespace ContextView.Sample
         {
             this.Navigation.PushAsync(new ListViewAllItemContextPage());
         }
+
+        private void GoToAnyViewsPage_Clicked(object sender, EventArgs e)
+        {
+            this.Navigation.PushAsync(new AnyViewsPage());
+        }
     }
 }

@@ -7,7 +7,7 @@
     x:Name="ListViewAllItemContext">
     <ListView
         x:Name="Elements"
-        CachingStrategy="RetainElement"
+        CachingStrategy="RecycleElementAndDataTemplate"
         IsPullToRefreshEnabled="False"
         ItemsSource="{Binding Restourants}"
         SelectionMode="None">
