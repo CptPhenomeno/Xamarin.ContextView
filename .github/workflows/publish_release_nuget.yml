@@ -1,5 +1,4 @@
-name: Test version
-
+name: Release on push
 on:
   workflow_dispatch:    
   push:
@@ -26,28 +25,28 @@ jobs:
         uses: gittools/actions/gitversion/execute@v0.9.10
         
       - name: create release
-      uses: actions/create-release@v1
-      with:
-        tag_name: ${{ steps.gitversion.outputs.majorMinorPatch }}
-        release_name: ${{ steps.gitversion.outputs.majorMinorPatch }}
-        prerelease: false
-      env:
-          GITHUB_TOKEN: ${{ github.token }}
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.gitversion.outputs.majorMinorPatch }}
+          release_name: ${{ steps.gitversion.outputs.majorMinorPatch }}
+          prerelease: false
+        env:
+            GITHUB_TOKEN: ${{ github.token }}
           
-    - name: Install dependencies
-      run: dotnet restore ContextView/Xamarin.ContextView/Xamarin.ContextView.csproj
-      
-    - name: Build and Pack
-      run: dotnet pack ContextView/Xamarin.ContextView/Xamarin.ContextView.csproj --configuration Release --no-restore /p:Version=${{ steps.gitversion.outputs.majorMinorPatch }}
-    
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        # Artifact name
-        name: xamarin.contextview
-        # Directory containing files to upload
-        path: ContextView/Xamarin.ContextView/bin/Release
-    
-    - name: Push to nuget
-      run: dotnet nuget push ContextView/Xamarin.ContextView/bin/Release/Xamarin.ContextView.${{ steps.gitversion.outputs.majorMinorPatch }}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+      - name: Install dependencies
+        run: dotnet restore ContextView/Xamarin.ContextView/Xamarin.ContextView.csproj
+
+      - name: Build and Pack
+        run: dotnet pack ContextView/Xamarin.ContextView/Xamarin.ContextView.csproj --configuration Release --no-restore /p:Version=${{ steps.gitversion.outputs.majorMinorPatch }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          # Artifact name
+          name: xamarin.contextview
+          # Directory containing files to upload
+          path: ContextView/Xamarin.ContextView/bin/Release
+
+      - name: Push to nuget
+        run: dotnet nuget push ContextView/Xamarin.ContextView/bin/Release/Xamarin.ContextView.${{ steps.gitversion.outputs.majorMinorPatch }}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
       
